@@ -1,2 +1,2 @@
-pip install requirements.txt --no-cache
-python -m venv
+py -3 -m venv venv
+pip install --no-cache-dir -r requirements.txt
