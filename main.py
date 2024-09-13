@@ -1,31 +1,35 @@
 import cv2
 import numpy as np
 
-def add_salt_and_pepper_noise(image : np.ndarray, noise_ratio=0.02) -> np.ndarray:
-    noisy_image = image.copy()
-    h, w = noisy_image.shape
-    noisy_pixels = int(h * w * noise_ratio)
- 
-    for _ in range(noisy_pixels):
-        row, col= np.random.randint(0, h), np.random.randint(0, w)
-        if np.random.rand() < 0.5:
-            noisy_image[row, col] = 0
-        else:
-            noisy_image[row, col] = 255
- 
-    return noisy_image
+from noise import salt_n_pepper
+from gauss import gauss_filter
+from convolution import conv2d_sharpening
 
-img = cv2.imread('res/small-brain-img.png', 0)
+
+img = cv2.imread('res/big-brain-img.png', 0)
 
 cv2.imshow('no-modification', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-print(type(img))
-
-img_noise = add_salt_and_pepper_noise(img)
+img_noise = salt_n_pepper(img)
 
 cv2.imshow('askpy-noise', img_noise)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
+cv2.imshow('gauss', gauss_filter(img=img_noise))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+kernel_sobel_1 = np.array(([-1,-2,-1],[0,0,0],[1,2,1]))
+kernel_sobel_2 = np.array(([-1,0,1],[-2,0,2],[-1,0,1]))
+
+img_sobel_1 = conv2d_sharpening(img_noise, kernel_sobel_1)
+img_sobel_2 = conv2d_sharpening(img_noise, kernel_sobel_2)
+
+img_sobel = np.abs(img_sobel_1)+np.abs(img_sobel_2)
+
+cv2.imshow('sobel', gauss_filter(img=img_sobel))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
