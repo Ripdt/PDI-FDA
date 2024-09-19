@@ -1,0 +1,5 @@
+slides
+https://learnopencv.com/image-filtering-using-convolution-in-opencv/
+https://www.youtube.com/watch?v=NJ8uCF_Prb8
+https://numpy.org/doc/
+https://www.w3schools.com/python/
