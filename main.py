@@ -3,7 +3,7 @@ import numpy as np
 
 from noise import salt_n_pepper
 from gauss import gauss_filter
-from sobel import sobel_sharpening_optmized
+from sobel import sobel_sharpening
 
 from fda import fda_filter
 
@@ -34,8 +34,8 @@ for i in range(2):
     img_fda = fda_filter(img_fda)
 
 # =========== borders =========== 
-img_gauss_sobel = sobel_sharpening_optmized(img_gauss)
-img_fda_sobel = sobel_sharpening_optmized(img_fda)
+img_gauss_sobel = sobel_sharpening(img_gauss)
+img_fda_sobel = sobel_sharpening(img_fda)
 
 cv2.imshow('sobel-gauss', img_gauss_sobel)
 cv2.waitKey(0)
@@ -60,8 +60,8 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 # =========== borders =========== 
-img_gauss_sharp_sobel = sobel_sharpening_optmized(img_sharp_gauss)
-img_fda_sharp_sobel = sobel_sharpening_optmized(img_sharp_fda)
+img_gauss_sharp_sobel = sobel_sharpening(img_sharp_gauss)
+img_fda_sharp_sobel = sobel_sharpening(img_sharp_fda)
 
 cv2.imshow('sobel-sharp-gauss', img_gauss_sharp_sobel)
 cv2.waitKey(0)
