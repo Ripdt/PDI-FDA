@@ -1,6 +1,6 @@
 import numpy as np
 
-def salt_n_pepper(image : np.ndarray, noise_ratio=0.02) -> np.ndarray:
+def salt_n_pepper(image : np.ndarray, noise_ratio=0.15) -> np.ndarray:
     noisy_image = image.copy()
     h, w = noisy_image.shape
     noisy_pixels = int(h * w * noise_ratio)
