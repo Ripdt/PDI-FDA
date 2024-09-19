@@ -1,6 +1,7 @@
 import numpy as np
+from mse import calculate_mse
 
-def calculate_psnr(original: np.ndarray, compressed: np.ndarray) -> float
+def calculate_psnr(original: np.ndarray, compressed: np.ndarray) -> float:
     mse = calculate_mse(original, compressed)
     if mse == 0: # imagens iguais
         return float('inf') # PSNR infinito

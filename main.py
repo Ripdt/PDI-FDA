@@ -3,73 +3,67 @@ import numpy as np
 
 from noise import salt_n_pepper
 from gauss import gauss_filter
-from sobel import sobel_sharpening
-
+from sobel import sobel_sharpening, sobel_sharpening_optmized
 from fda import fda_filter
-
 from sharpening import sharp_img
-
 from mse import calculate_mse
 from psnr import calculate_psnr
 
-# img = cv2.imread('res/lemur.jpg', 0)
-img = cv2.imread('res/small-brain-img.png', 0)
-# img = cv2.imread('res/big-brain-img.png', 0)
+from os import mkdir
+from os.path import exists
+from shutil import rmtree
 
+directory = './results'
+if exists(directory):
+    rmtree(directory)
+
+def show_and_save_img(img : np.ndarray, filename : str) -> None:
+    cv2.imshow(filename, img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    cv2.imwrite(directory + '/' + filename + '.png', img)
+
+mkdir(directory)
+    
 # =========== init =========== 
-cv2.imshow('no-modification', img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+img = cv2.imread('res/small-brain-img.png', 0)
 
+show_and_save_img(img, filename='no-modification')
+
+# =========== noise =========== 
 img_noise = salt_n_pepper(img, noise_ratio=.05)
 
-cv2.imshow('askpy-noise', img_noise)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+show_and_save_img(img_noise, filename='noise')
 
 # =========== smoothing =========== 
 img_gauss = gauss_filter(img=img_noise)
-for i in range(4):
+for i in range(2):
     img_gauss = gauss_filter(img=img_gauss)
 
 img_fda = fda_filter(img_noise)
-for i in range(2):
+for i in range(0):
     img_fda = fda_filter(img_fda)
 
+show_and_save_img(img_gauss, 'gauss')
+show_and_save_img(img_fda, 'fda')
+
 # =========== borders =========== 
-img_gauss_sobel = sobel_sharpening(img_gauss)
-img_fda_sobel = sobel_sharpening(img_fda)
+img_gauss_sobel = sobel_sharpening_optmized(img_gauss)
+img_fda_sobel = sobel_sharpening_optmized(img_fda)
 
-cv2.imshow('sobel-gauss', img_gauss_sobel)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-cv2.imshow('sobel-fda', img_fda_sobel)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+show_and_save_img(img_gauss_sobel, 'sobel-gauss')
+show_and_save_img(img_fda_sobel, 'sobel-fda')
 
 # =========== masking =========== 
 img_sharp_gauss = sharp_img(img, img_gauss, alpha=.1)
-
-cv2.imshow('sharpened-gauss', img_sharp_gauss)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-
 img_sharp_fda = sharp_img(img, img_fda, alpha=.1)
 
-cv2.imshow('sharpened-fda', img_sharp_fda)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+show_and_save_img(img_sharp_gauss, 'sharpened-gauss')
+show_and_save_img(img_sharp_fda, 'sharpened-fda')
 
 # =========== borders =========== 
-img_gauss_sharp_sobel = sobel_sharpening(img_sharp_gauss)
-img_fda_sharp_sobel = sobel_sharpening(img_sharp_fda)
+img_gauss_sharp_sobel = sobel_sharpening_optmized(img_sharp_gauss)
+img_fda_sharp_sobel = sobel_sharpening_optmized(img_sharp_fda)
 
-cv2.imshow('sobel-sharp-gauss', img_gauss_sharp_sobel)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-cv2.imshow('sobel-sharp-fda', img_fda_sharp_sobel)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+show_and_save_img(img_gauss_sharp_sobel, 'sobel-sharp-gauss')
+show_and_save_img(img_fda_sharp_sobel, 'sobel-sharp-fda')
