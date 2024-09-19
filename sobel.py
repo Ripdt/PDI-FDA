@@ -11,6 +11,7 @@ def sobel_sharpening(img : np.ndarray) -> np.ndarray:
     
     return np.hypot(img_sobel_1, img_sobel_2)
 
+# Somente para debug
 def sobel_sharpening_optmized(img : np.ndarray) -> np.ndarray:
     sobel_kernel_x = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
     sobel_kernel_y = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
