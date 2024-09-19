@@ -9,6 +9,9 @@ from fda import fda_filter
 
 from sharpening import sharp_img
 
+from mse import calculate_mse
+from psnr import calculate_psnr
+
 # img = cv2.imread('res/lemur.jpg', 0)
 img = cv2.imread('res/small-brain-img.png', 0)
 # img = cv2.imread('res/big-brain-img.png', 0)
