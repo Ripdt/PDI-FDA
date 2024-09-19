@@ -68,6 +68,27 @@ def conv2d_sharpening(img: np.ndarray, kernel: np.ndarray, padding=True) -> np.n
     output = np.clip(output, 0, 255)  # Garante que os valores estejam no intervalo de 0 a 255
     return np.array(output, dtype=np.float32)
 
+def conv2d_with_lookup_table(img : np.ndarray, lookup_table : np.ndarray, k_height=3, k_width=3, padding=True) -> np.ndarray:
+    if padding == True:
+        padded_img = add_padding(img, k_height, k_width)
+
+    img_height, img_width = img.shape
+
+    # Initialize an output image with zeros
+    output = np.zeros((img_height, img_width), dtype=float)
+
+    # Perform convolution
+    for i_img in range(img_height):
+        for j_img in range(img_width):
+            for i_kernel in range(k_height):
+                for j_kernel in range(k_width):
+                    p = padded_img[i_img+i_kernel, j_img+j_kernel]
+                    output[i_img, j_img] = output[i_img, j_img] + (p * lookup_table[int(p)])
+            output[i_img, j_img] = int(output[i_img, j_img])
+
+    output = np.clip(output, 0, 255)
+    return np.array(output, dtype=np.uint8)
+
 if __name__ == '__main__':
     # Imagem exemplo (5x5)
     img = np.array([[1, 2, 3, 4, 5],
