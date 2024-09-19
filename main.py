@@ -37,11 +37,11 @@ show_and_save_img(img_noise, filename='noise')
 
 # =========== smoothing =========== 
 img_gauss = gauss_filter(img=img_noise)
-for i in range(2):
+for i in range(4):
     img_gauss = gauss_filter(img=img_gauss)
 
 img_fda = fda_filter(img_noise)
-for i in range(0):
+for i in range(5):
     img_fda = fda_filter(img_fda)
 
 show_and_save_img(img_gauss, 'gauss')
@@ -67,3 +67,18 @@ img_fda_sharp_sobel = sobel_sharpening_optmized(img_sharp_fda)
 
 show_and_save_img(img_gauss_sharp_sobel, 'sobel-sharp-gauss')
 show_and_save_img(img_fda_sharp_sobel, 'sobel-sharp-fda')
+
+# =========== metrics =========== 
+mse_gauss = calculate_mse(img, img_sharp_gauss)
+psnr_gauss = calculate_psnr(img, img_sharp_gauss)
+
+mse_fda = calculate_mse(img, img_sharp_fda)
+psnr_fda = calculate_psnr(img, img_sharp_fda)
+
+print()
+print('MSE - \tGAUSS: ' + str(mse_gauss))
+print('MSE - \tFDA: ' + str(mse_fda))
+print()
+print('PSNR - \tGAUSS: ' + str(psnr_gauss))
+print('PSNR - \tFDA: ' + str(psnr_fda))
+print()

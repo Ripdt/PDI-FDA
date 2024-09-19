@@ -15,9 +15,10 @@ def lookup_table(lmbda : int = 1, delta : float =.5) -> np.ndarray:
 
     return lut
 
-def fda_filter(img : np.ndarray) -> np.ndarray:
+def fda_filter(img : np.ndarray, padding=True) -> np.ndarray:
     return conv2d_with_lookup_table(
-        img=img, 
+        img=img,
+        padding=padding,
         lookup_table=lookup_table(),
         k_height=3,
         k_width=3

@@ -12,7 +12,7 @@ def gauss_create(sigma=1, size_x=3, size_y=3) -> np.ndarray:
 
     return exp*calc
 
-def gauss_filter(img : np.ndarray) -> np.ndarray:
+def gauss_filter(img : np.ndarray, padding=True) -> np.ndarray:
     gaus_3x3 = gauss_create(sigma=1, size_x=3, size_y=3)
 
-    return conv2d(img = img, kernel = gaus_3x3);
+    return conv2d(img = img, kernel = gaus_3x3, padding=padding);
